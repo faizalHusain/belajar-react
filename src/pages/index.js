@@ -1,15 +1,18 @@
 import Head from "next/head";
 import Image from "next/image";
+import { useRouter } from "next/router";
 import { useCallback, useEffect, useState } from "react";
+import Card from "@/components/card";
 // import { Inter } from 'next/font/google'
 import styles from "@/styles/Home.module.css";
 
 // const inter = Inter({ subsets: ['latin'] })
-import Button from "@/components/button";
+// import Button from "@/components/button";
 export default function Home() {
   const [count, setCount] = useState(0);
   const [search, setSearch] = useState("");
   const [movies, setMovies] = useState([]);
+  // const { query, isReady } = useRouter();
   const increaseCount = () => {
     setCount(count + 1);
   };
@@ -33,9 +36,7 @@ export default function Home() {
       );
       const data = await response.json();
       setMovies(data.results);
-      console.log("lakukan searching kembali");
-      // console.log(movies);
-      // console.log(data);
+      console.log(data);
     } catch (error) {
       console.log(error);
     }
@@ -64,21 +65,28 @@ export default function Home() {
           />
         </div>
         <div className={styles.wrappercard}>
+          {/* looping data dari movie */}
           {movies.map((movie) => (
             <>
+              {/* tampilkan hanya jika movie poster nya memiliki gambar lakukan kondisional dengan js*/}
               {movie.poster_path && (
-                <div className={styles.card}>
-                  <Image
-                    src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
-                    alt={movie.title}
-                    width={200}
-                    height={200}
-                    style={{ borderRadius: 8 }}
-                  />
-                  <div className={styles.cardTitle}>
-                    <p>{movie.title}</p>
-                  </div>
-                </div>
+                // <div className={styles.card} key={movie.id}>
+                //   <Image
+                //     src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
+                //     alt={movie.title}
+                //     width={200}
+                //     height={200}
+                //     style={{ borderRadius: 8 }}
+                //   />
+                //   <div className={styles.cardTitle}>
+                //     <p>{movie.title}</p>
+                //   </div>
+                // </div>
+                <Card
+                  id={movie.id}
+                  title={movie.title}
+                  poster_path={movie.poster_path}
+                />
               )}
             </>
           ))}
